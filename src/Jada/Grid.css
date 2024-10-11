@@ -1,0 +1,33 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 10%;
+}
+
+.grid-row {
+  display: contents;
+}
+
+.grid-cell {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.grid-cell.on {
+  background-color: #b8f2e6;
+}
+
+.grid-cell.off {
+  background-color: #ffa69e;
+}
