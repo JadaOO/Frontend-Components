@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Grid.css";
 
 // interface gridProps {
@@ -19,7 +19,17 @@ const Grid: React.FC = () => {
     [4, 5, 6],
     [7, 8, 9],
   ];
+
   const [gridState, setGridState] = useState(initialGridState);
+  const [clickOrder, setclickOrder] = useState<{ row: number; cell: number }[]>(
+    []
+  );
+
+  function checkGridCompleted(gridState: boolean[][]) {
+    return gridState.every((row) => row.every((cell) => cell));
+  }
+
+  // const isGridCompleted = checkGridCompleted(gridState);
 
   const handleClick = (rowIndex: number, cellIndex: number) => {
     const newGridState = gridState.map((row, currentRowIndex) =>
@@ -29,7 +39,20 @@ const Grid: React.FC = () => {
           : cell
       )
     );
+    setclickOrder([...clickOrder, { row: rowIndex, cell: cellIndex }]);
     setGridState(newGridState);
+
+    if (checkGridCompleted(newGridState)) {
+      clickOrder.forEach(({ row, cell }) => {
+        setGridState((prevGridState) =>
+          prevGridState.map((r, rowIndex) =>
+            r.map((c, cellIndex) =>
+              rowIndex === row && cellIndex === cell ? !c : c
+            )
+          )
+        );
+      });
+    }
   };
 
   // const [on, setOn] = useState(false);
