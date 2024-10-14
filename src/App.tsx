@@ -1,13 +1,12 @@
-import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import Grid from "./Jada/Grid";
+import LightGrid from "./Josh/light_grid/lightGrid";
 
 function App() {
   return (
-    <div className="App">
-      {/* <header className="App-header"></header> */}
-      <Grid />
+    <div className="app-container">
+        <Grid />
+        <LightGrid />
     </div>
   );
 }
