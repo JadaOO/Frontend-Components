@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Grid.css";
 
-// interface gridProps {
-//     rows
-// }
-
 const Grid: React.FC = () => {
-  //use Array.from to create 3 new array grid
-  // const grid = Array.from({ length: 3 }, () => new Array(3).fill("X"));
   const initialGridState = [
     [false, false, false],
     [false, false, false],
@@ -21,54 +15,73 @@ const Grid: React.FC = () => {
   ];
 
   const [gridState, setGridState] = useState(initialGridState);
-  const [clickOrder, setclickOrder] = useState<{ row: number; cell: number }[]>(
+  const [clickOrder, setClickOrder] = useState<{ row: number; cell: number }[]>(
     []
   );
 
-  function checkGridCompleted(gridState: boolean[][]) {
-    return gridState.every((row) => row.every((cell) => cell));
-  }
-
-  // const isGridCompleted = checkGridCompleted(gridState);
-
-  const handleClick = (rowIndex: number, cellIndex: number) => {
-    const newGridState = gridState.map((row, currentRowIndex) =>
-      row.map((cell, currentCellIndex) =>
-        currentRowIndex === rowIndex && currentCellIndex === cellIndex
-          ? !cell
-          : cell
-      )
-    );
-    setclickOrder([...clickOrder, { row: rowIndex, cell: cellIndex }]);
-    setGridState(newGridState);
-
-    if (checkGridCompleted(newGridState)) {
-      clickOrder.forEach(({ row, cell }) => {
-        setGridState((prevGridState) =>
-          prevGridState.map((r, rowIndex) =>
-            r.map((c, cellIndex) =>
-              rowIndex === row && cellIndex === cell ? !c : c
-            )
-          )
-        );
-      });
+  // Function to check if the entire grid is completed (i.e., all cells are true)
+  const checkGridCompleted = (gridState: boolean[][]) => {
+    for (let i = 0; i < gridState.length; i++) {
+      for (let j = 0; j < gridState[i].length; j++) {
+        if (!gridState[i][j]) {
+          return false;
+        }
+      }
     }
+    return true;
   };
 
-  // const [on, setOn] = useState(false);
+  const isGridCompleted = checkGridCompleted(gridState);
+
+  useEffect(() => {
+    if (isGridCompleted) {
+      // All cells clicked, reset them in the same order
+      let resetTimeout = 0;
+      clickOrder.forEach(({ row, cell }) => {
+        setTimeout(() => {
+          setGridState((prevState) => {
+            const newState = prevState.map((r, rowIndex) =>
+              r.map((c, cellIndex) =>
+                rowIndex === row && cellIndex === cell ? false : c
+              )
+            );
+            return newState;
+          });
+        }, resetTimeout);
+        resetTimeout += 500; // Adjust the timing (500ms delay between each reset)
+      });
+
+      // Clear the click order after reset
+      setClickOrder([]);
+    }
+  }, [isGridCompleted, clickOrder]);
+
+  const handleClick = (rowIndex: number, cellIndex: number) => {
+    if (!gridState[rowIndex][cellIndex]) {
+      // Proceed only if the cell is currently "off"
+      const newGridState = gridState.map((row, currentRowIndex) =>
+        row.map((cell, currentCellIndex) =>
+          currentRowIndex === rowIndex && currentCellIndex === cellIndex
+            ? true
+            : cell
+        )
+      );
+      setGridState(newGridState);
+
+      // Add to the click order for reset later
+      setClickOrder((prevOrder) => [
+        ...prevOrder,
+        { row: rowIndex, cell: cellIndex },
+      ]);
+    }
+  };
 
   return (
     <div className="grid-container">
       {grid.map((row, rowIndex) => (
         <div key={rowIndex} className="grid-row">
           {row.map((cell, cellIndex) => (
-            <div
-              key={`${rowIndex}-${cellIndex}`}
-              className="grid-cell"
-              // onClick={() => {
-              //   setOn(!on);
-              // }}
-            >
+            <div key={`${rowIndex}-${cellIndex}`} className="grid-cell">
               <button
                 className={`grid-cell ${
                   gridState[rowIndex][cellIndex] ? "on" : "off"
