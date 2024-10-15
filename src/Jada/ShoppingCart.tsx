@@ -53,6 +53,17 @@ const ShoppingCart: React.FC = () => {
     });
   };
 
+  const removeQuan = (product: Product) => {
+    setCart((prev) => {
+      const newCart = prev.map((item) =>
+        item.product.id === product.id
+          ? { ...item, quantities: item.quantities - 1 }
+          : item
+      );
+      return newCart.filter((item) => item.quantities > 0);
+    });
+  };
+
   const priceCal = (price: number, quan: number) => {
     return (price * quan).toFixed(4);
   };
@@ -82,7 +93,7 @@ const ShoppingCart: React.FC = () => {
           <div>{product.quantities}</div>
           <div>{product.price}</div>
           <button onClick={() => addToCart(product)}>Add</button>
-          <button onClick={() => removeFromCart(product)}>Remove</button>
+          <button onClick={() => removeQuan(product)}>Remove</button>
         </div>
       ))}
       <div>------------------------------------</div>
