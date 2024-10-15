@@ -5,6 +5,8 @@ import LightGrid from "./Josh/light_grid/lightGrid";
 import { Routes, Route, BrowserRouter, Link } from "react-router-dom";
 import JadaProjectList from "./Jada/JadaProjectList";
 import Grid from "./Jada/Grid";
+import Modal from "./Jada/Modal";
+import Form from "./Jada/Form";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           <Routes>
             <Route path="/jada" element={<JadaProjectList />} />
             <Route path="/jada/grid" element={<Grid />} />
+            <Route path="/jada/form" element={<Form />} />
+            <Route path="/jada/modal" element={<Modal />} />
             <Route path="/josh" element={<LightGrid />} />
           </Routes>
         </BrowserRouter>
