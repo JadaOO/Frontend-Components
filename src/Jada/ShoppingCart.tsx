@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { productList } from "./seeds";
 
 interface Product {
   name: string;
@@ -20,14 +21,9 @@ const ShoppingCart: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchProduct = () => {
       try {
-        const response = await fetch("http//fakeapi");
-        if (!response.ok) {
-          throw new Error("Fail to load product");
-        }
-
-        const data: Product[] = await response.json();
+        const data: Product[] = productList;
         setProducts(data);
       } catch (error) {
         console.log(error);
@@ -38,12 +34,42 @@ const ShoppingCart: React.FC = () => {
 
   const addToCart = (product: Product) => {
     setCart((prev) => {
-      if ((prev.product.id = product.id)) {
-        [...prev, [prev.product, (quantities += 1)]];
+      const exsitingItem = prev.find((item) => item.product.id === product.id);
+      if (exsitingItem) {
+        return prev.map((item) =>
+          item.product.id === product.id
+            ? { ...item, quantities: item.quantities + 1 }
+            : item
+        );
       } else {
-        [...prev, [...product]];
+        return [...prev, { id: product.id, product, quantities: 1 }];
       }
     });
+  };
+
+  const removeFromCart = (product: Product) => {
+    setCart((prev) => {
+      return prev.filter((item) => item.product.id !== product.id);
+    });
+  };
+
+  const priceCal = (price: number, quan: number) => {
+    return (price * quan).toFixed(4);
+  };
+
+  const totalPrice = () => {
+    return cart
+      .reduce(
+        (total, item) => total + item.product.quantities * item.product.price,
+        0
+      )
+      .toFixed(2);
+  };
+
+  const calculateTotalPrice = () => {
+    return cart
+      .reduce((total, item) => total + item.product.price * item.quantities, 0)
+      .toFixed(2); // Calculate total price
   };
 
   return (
@@ -55,8 +81,22 @@ const ShoppingCart: React.FC = () => {
           <div>{product.name}</div>
           <div>{product.quantities}</div>
           <div>{product.price}</div>
+          <button onClick={() => addToCart(product)}>Add</button>
+          <button onClick={() => removeFromCart(product)}>Remove</button>
         </div>
       ))}
+      <div>------------------------------------</div>
+      {cart &&
+        cart.map((cart: Cart) => (
+          <div>
+            {cart.product.name}
+            {cart.quantities}
+            {`price:$${priceCal(cart.product.price, cart.quantities)}`}
+            {`Total price:$${calculateTotalPrice()}`}
+            <button onClick={() => addToCart(cart.product)}>Add</button>
+            <button onClick={() => removeFromCart(cart.product)}>Remove</button>
+          </div>
+        ))}
     </div>
   );
 };

@@ -7,6 +7,7 @@ import JadaProjectList from "./Jada/JadaProjectList";
 import Grid from "./Jada/Grid";
 import WelcomeModal from "./Jada/Modal";
 import Form from "./Jada/Form";
+import ShoppingCart from "./Jada/ShoppingCart";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/jada" element={<JadaProjectList />} />
             <Route path="/jada/grid" element={<Grid />} />
             <Route path="/jada/form" element={<Form />} />
+            <Route path="/jada/shopping-cart" element={<ShoppingCart />} />
             <Route path="/jada/modal" element={<WelcomeModal />} />
             <Route path="/josh" element={<LightGrid />} />
           </Routes>

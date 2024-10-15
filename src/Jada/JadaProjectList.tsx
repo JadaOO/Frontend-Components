@@ -12,6 +12,7 @@ function JadaProjectList() {
       <Link to="/jada/grid">Color Board</Link>
       <Link to="/jada/form">Form</Link>
       <Link to="/jada/modal">Welcome Modal</Link>
+      <Link to="/jada/shopping-cart">Shopping Cart</Link>
       <div>{location.pathname}</div>
       <button onClick={() => navigate("/")}>Back to HomePage</button>
     </div>
