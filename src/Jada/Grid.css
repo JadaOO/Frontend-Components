@@ -2,9 +2,9 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  max-width: 300px;
+  max-width: 332px;
   margin: 0 auto;
-  padding: 10%;
+  padding: 2%;
 }
 
 .grid-row {
