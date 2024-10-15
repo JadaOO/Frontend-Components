@@ -5,16 +5,14 @@ import LightGrid from "./Josh/light_grid/lightGrid";
 import { Routes, Route, BrowserRouter, Link } from "react-router-dom";
 import JadaProjectList from "./Jada/JadaProjectList";
 import Grid from "./Jada/Grid";
-import Modal from "./Jada/Modal";
+import WelcomeModal from "./Jada/Modal";
 import Form from "./Jada/Form";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Welcome to Jada and Josh's Training Land</h1>
         <h2>Things take time, be nice to yourself</h2>
-
         <BrowserRouter>
           <nav>
             <Link to="/jada">Jada's Projects</Link>
@@ -24,7 +22,7 @@ function App() {
             <Route path="/jada" element={<JadaProjectList />} />
             <Route path="/jada/grid" element={<Grid />} />
             <Route path="/jada/form" element={<Form />} />
-            <Route path="/jada/modal" element={<Modal />} />
+            <Route path="/jada/modal" element={<WelcomeModal />} />
             <Route path="/josh" element={<LightGrid />} />
           </Routes>
         </BrowserRouter>
