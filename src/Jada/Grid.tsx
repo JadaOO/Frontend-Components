@@ -36,7 +36,7 @@ const Grid: React.FC = () => {
   useEffect(() => {
     if (isGridCompleted) {
       // All cells clicked, reset them in the same order
-      let resetTimeout = 0;
+
       clickOrder.forEach(({ row, cell }) => {
         setTimeout(() => {
           setGridState((prevState) => {
@@ -47,8 +47,7 @@ const Grid: React.FC = () => {
             );
             return newState;
           });
-        }, resetTimeout);
-        resetTimeout += 500; // Adjust the timing (500ms delay between each reset)
+        }, 1000);
       });
 
       // Clear the click order after reset
